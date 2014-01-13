@@ -5,13 +5,14 @@ import os
 
 
 def do_main_program():
-    appDir = os.path.dirname(os.path.realpath(__file__ + "/.."))
-    os.system("aria2c --conf-path=" + appDir + "/conf/aria2.conf")
-    print "started"
+    app_dir = os.path.dirname(os.path.realpath(__file__ + "/.."))
+    os.system("aria2c --conf-path=" + app_dir + "/conf/aria2.conf")
+    print "Aria2 Started"
 
 
 def do_stop_program():
-    print "stopped"
+    os.system("killall -9 aria2c")
+    print "All Stopped"
 
 
 command = sys.argv[1]
