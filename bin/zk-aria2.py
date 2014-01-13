@@ -6,7 +6,7 @@ import os
 
 def do_main_program():
     appDir = os.path.dirname(os.path.realpath(__file__ + "/.."))
-    os.system("aria2c --conf-path=" + appDir + "/aria2.conf")
+    os.system("aria2c --conf-path=" + appDir + "/conf/aria2.conf")
     print "started"
 
 
