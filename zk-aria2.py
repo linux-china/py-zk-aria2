@@ -1,28 +1,29 @@
 #! /bin/env python
 # -*- coding: utf-8 -*-
 import sys
-import os
 import tornado.ioloop
-from kazoo.client import KazooClient
+import tornado.web
+from lib import aria2, zk, handlers
+import ConfigParser
 
-
-def my_func(event):
-    print "fired"
+config = ConfigParser.RawConfigParser()
+config.read('conf/core.cfg')
 
 
 def do_main_program():
-    app_dir = os.path.dirname(os.path.realpath(__file__ + "/.."))
-    os.system("aria2c --conf-path=" + app_dir + "/conf/aria2.conf")
-    print "Aria2 Started"
-    zk = KazooClient(hosts='127.0.0.1:2181')
-    zk.start()
-    zk.get_children("/aria2", watch=my_func)
-    # io loop
+    global config
+    aria2.start()
+    zk.start(config.get('ZooKeeper', 'quorum'), config.get('ZooKeeper', 'aria2_dir'))
+    # start web server
+    application = tornado.web.Application([
+        (r"/", handlers.MainHandler),
+    ])
+    application.listen(config.getint("Core", "listen"))
     tornado.ioloop.IOLoop.instance().start()
 
 
 def do_stop_program():
-    os.system("killall -9 aria2c")
+    aria2.stop()
     print "All Stopped"
 
 
