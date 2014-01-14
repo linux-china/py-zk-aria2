@@ -26,11 +26,11 @@ def do_stop_program():
     print "All Stopped"
 
 
-command = sys.argv[1]
-
-if command == "start":
-    do_main_program()
-elif command == "stop":
-    do_stop_program()
-else:
-    print "unkown"
+if __name__ == "__main__":
+    command = sys.argv[1]
+    if command == "start":
+        do_main_program()
+    elif command == "stop":
+        do_stop_program()
+    else:
+        print "unkown"
